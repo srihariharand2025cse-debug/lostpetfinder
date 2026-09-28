@@ -7,6 +7,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "lost_pet_reports")
@@ -16,11 +18,15 @@ public class LostPetReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Species is required")
     private String species;
     private String breed;
     private String colour;
+    @NotBlank(message = "Last seen location is required")
     private String lastSeenLocation;
+    @NotNull(message = "Report date is required")
     private LocalDate reportDate;
+    @NotBlank(message = "Status is required")
     private String status;
 
     public LostPetReport() {

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.lostpetfinder.model.LostPetReport;
 import com.example.lostpetfinder.service.LostPetReportService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/lost-pets")
 public class LostPetReportController {
@@ -25,7 +27,7 @@ public class LostPetReportController {
     }
 
     @PostMapping
-    public LostPetReport createLostPetReport(@RequestBody LostPetReport report) {
+    public LostPetReport createLostPetReport(@Valid @RequestBody LostPetReport report) {
         return lostPetReportService.createLostPetReport(report);
     }
 
