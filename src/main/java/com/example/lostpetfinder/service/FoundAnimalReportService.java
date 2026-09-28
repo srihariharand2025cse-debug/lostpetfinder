@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.lostpetfinder.model.FoundAnimalReport;
 import com.example.lostpetfinder.repository.FoundAnimalReportRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class FoundAnimalReportService {
 
@@ -29,7 +31,16 @@ public class FoundAnimalReportService {
         return foundAnimalReportRepository.findById(id);
     }
 
+    public FoundAnimalReport resolveFoundAnimalReport(Long id) {
+        FoundAnimalReport report = foundAnimalReportRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Found animal report not found: " + id));
+        report.setStatus("RESOLVED");
+        return foundAnimalReportRepository.save(report);
+    }
+
     public void deleteFoundAnimalReport(Long id) {
+        foundAnimalReportRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Found animal report not found: " + id));
         foundAnimalReportRepository.deleteById(id);
     }
 }

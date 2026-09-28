@@ -1,7 +1,6 @@
 package com.example.lostpetfinder.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lostpetfinder.model.User;
 import com.example.lostpetfinder.service.UserService;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,8 +36,9 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
+    public User getUserById(@PathVariable Long id) {
+        return userService.getUserById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found: " + id));
     }
 
     @DeleteMapping("/{id}")

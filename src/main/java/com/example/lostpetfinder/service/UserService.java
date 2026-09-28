@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.example.lostpetfinder.model.User;
 import com.example.lostpetfinder.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -30,6 +32,8 @@ public class UserService {
     }
 
     public void deleteUser(Long id) {
+        userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found: " + id));
         userRepository.deleteById(id);
     }
 }
